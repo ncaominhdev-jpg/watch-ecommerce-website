@@ -1,0 +1,269 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model users {
+  id          Int         @id @default(autoincrement())
+  name        String      @db.VarChar(255)
+  email       String      @unique @db.VarChar(255)
+  password    String      @db.VarChar(255)
+  phone       String?      @db.VarChar(15)
+  image       String?     @db.VarChar(255)
+  role        Role
+  status      Boolean     @default(true)
+  reset_token String?     @db.Text
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  addresses   addresses[]
+  blogs       blogs[]     @relation("UserToBlogs")
+  carts       cart[]
+  contacts    contacts[]
+  orders      orders[]
+  reviews     reviews[]
+}
+
+model contacts {
+  id            Int      @id @default(autoincrement())
+  user_id       Int?
+  title         String   @db.VarChar(255)
+  message       String   @db.Text
+  reply_message String?  @db.Text
+  status        Boolean  @default(false)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  email         String?  @db.Text
+  name          String?  @db.Text
+  user          users?   @relation(fields: [user_id], references: [id])
+
+  @@index([user_id], map: "contacts_user_id_fkey")
+}
+
+model addresses {
+  id             Int      @id @default(autoincrement())
+  user_id        Int
+  recipient_name String   @db.VarChar(255)
+  phone          String   @db.VarChar(15)
+  address        String   @db.VarChar(255)
+  note           String?  @db.Text
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  user           users    @relation(fields: [user_id], references: [id])
+
+  @@index([user_id], map: "addresses_user_id_fkey")
+}
+
+model categories {
+  id        Int        @id @default(autoincrement())
+  name      String     @db.VarChar(255)
+  slug      String?    @unique @db.VarChar(255)
+  status    Boolean
+  image     String?    @db.VarChar(255)
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  products  products[]
+}
+
+model brands {
+  id          Int        @id @default(autoincrement())
+  name        String     @db.VarChar(255)
+  slug        String?    @unique @db.VarChar(255)
+  description String?    @db.Text
+  logo_url    String?    @db.VarChar(255)
+  status      Boolean
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  products    products[]
+}
+
+model products {
+  id                Int                @id @default(autoincrement())
+  name              String             @db.VarChar(255)
+  slug              String?            @unique @db.VarChar(255)
+  price             Int
+  short_description String?            @db.Text
+  description       String?            @db.Text
+  status            Boolean
+  category_id       Int
+  brand_id          Int
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime           @updatedAt
+  cart              cart[]
+  product_images    product_images[]
+  product_variants  product_variants[]
+  brand             brands             @relation(fields: [brand_id], references: [id])
+  category          categories         @relation(fields: [category_id], references: [id])
+  reviews           reviews[]
+
+  @@index([brand_id], map: "products_brand_id_fkey")
+  @@index([category_id], map: "products_category_id_fkey")
+}
+
+model product_images {
+  id         Int      @id @default(autoincrement())
+  product_id Int
+  image_url  String   @db.VarChar(255)
+  product    products @relation(fields: [product_id], references: [id])
+
+  @@index([product_id], map: "product_images_product_id_fkey")
+}
+
+model product_variants {
+  id            Int            @id @default(autoincrement())
+  product_id    Int
+  name_color    String         @db.VarChar(50)
+  code_color    String         @db.VarChar(50)
+  quantity      Int
+  price         Int
+  discount      Int?
+  status        Boolean        @default(true)
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  cart          cart[]
+  order_details order_detail[]
+  product       products       @relation(fields: [product_id], references: [id])
+
+  @@index([product_id], map: "product_variants_product_id_fkey")
+}
+
+model order_detail {
+  id          Int              @id @default(autoincrement())
+  order_id    Int
+  variant_id  Int
+  quantity    Int
+  price       Int
+  total_price Int
+  createdAt   DateTime         @default(now())
+  order       orders           @relation(fields: [order_id], references: [id])
+  variant     product_variants @relation(fields: [variant_id], references: [id])
+
+  @@index([order_id], map: "order_detail_order_id_fkey")
+  @@index([variant_id], map: "order_detail_variant_id_fkey")
+}
+
+model orders {
+  id            Int            @id @default(autoincrement())
+  user_id       Int
+  name          String         @db.VarChar(255)
+  phone         String         @db.VarChar(15)
+  email         String?        @db.VarChar(255)
+  address       String
+  total_price   Int
+  status        OrderStatus
+  note          String?
+  voucher_code  String?        @db.VarChar(50)
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  order_details order_detail[]
+  user          users          @relation(fields: [user_id], references: [id])
+  payments      payments[]
+  reviews       reviews[]
+
+  @@index([user_id], map: "orders_user_id_fkey")
+}
+
+model cart {
+  id                 Int              @id @default(autoincrement())
+  user_id            Int
+  product_variant_id Int
+  quantity           Int
+  createdAt          DateTime         @default(now())
+  updatedAt          DateTime         @updatedAt
+  product_id         Int
+  product            products         @relation(fields: [product_id], references: [id])
+  variant            product_variants @relation(fields: [product_variant_id], references: [id])
+  user               users            @relation(fields: [user_id], references: [id])
+
+  @@unique([user_id, product_variant_id])
+  @@index([product_id], map: "cart_product_id_fkey")
+  @@index([product_variant_id], map: "cart_product_variant_id_fkey")
+}
+
+model payments {
+  id             Int           @id @default(autoincrement())
+  order_id       Int
+  payment_date   DateTime      @default(now())
+  payment_method PaymentMethod
+  amount         Decimal
+  status         PaymentStatus
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+  order          orders        @relation(fields: [order_id], references: [id])
+
+  @@index([order_id], map: "payments_order_id_fkey")
+}
+
+model reviews {
+  id            Int             @id @default(autoincrement())
+  user_id       Int
+  product_id    Int
+  rating        Int             @db.TinyInt
+  comment       String?         @db.VarChar(255)
+  status        Boolean         @default(true)
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+  order_id      Int?
+  review_images review_images[]
+  order         orders?         @relation(fields: [order_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_reviews_order_id")
+  product       products        @relation(fields: [product_id], references: [id])
+  user          users           @relation(fields: [user_id], references: [id])
+
+  @@index([product_id], map: "reviews_product_id_fkey")
+  @@index([user_id], map: "reviews_user_id_fkey")
+  @@index([order_id], map: "reviews_order_id_fkey")
+}
+
+model review_images {
+  id        Int      @id @default(autoincrement())
+  review_id Int
+  image_url String   @db.VarChar(255)
+  createdAt DateTime @default(now())
+  review    reviews  @relation(fields: [review_id], references: [id])
+
+  @@index([review_id], map: "review_images_review_id_fkey")
+}
+
+model blogs {
+  id                Int      @id @default(autoincrement())
+  user_id           Int
+  title             String   @db.VarChar(255)
+  short_description String?  @db.Text
+  content           String   @db.Text
+  image_url         String?  @db.VarChar(255)
+  status            Boolean
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  keyword           String?  @db.VarChar(255)
+  slug              String?  @db.Text
+  user              users    @relation("UserToBlogs", fields: [user_id], references: [id])
+
+  @@index([user_id], map: "blogs_user_id_fkey")
+}
+
+enum Role {
+  super_admin
+  admin
+  customers
+}
+
+enum OrderStatus {
+  pending
+  shipped
+  delivered
+  canceled
+}
+
+enum PaymentMethod {
+  BANKCODE
+  MOMO
+}
+
+enum PaymentStatus {
+  pending
+  completed
+  failed
+}

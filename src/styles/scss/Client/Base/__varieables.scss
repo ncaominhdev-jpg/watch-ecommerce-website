@@ -1,0 +1,33 @@
+
+:root{
+--pri-color:#1D2027;
+--color-secondary:#618264;
+--color-green: #79AC78;
+--color-green-light: #1d20278c;
+--color-background-light:#1d20278c;
+
+--color-price:#4A736F;
+--color-title:#326e51;
+
+--text-color:#333333;
+--text-color-sale:#808080;
+--text-color-light:#ffffff;
+--black-color:#313131;
+
+--font-size:clamp(12px, 3vw, 18px);
+
+//forn chữ 
+
+--font-family-pri: "Inter", sans-serif;
+}
+@import url('https://fonts.googleapis.com/css2?family=Alata&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+::-webkit-scrollbar{
+    width: 5px;
+    background-color: #B0D9B1;
+}
+::-webkit-scrollbar-thumb{
+    background-color: #618264;
+    border-radius: 50px;
+    box-shadow:0px 0px 6px 2px rgba(0, 0, 0, 0.5) inset;
+}
+
