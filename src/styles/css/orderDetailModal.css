@@ -1,0 +1,159 @@
+/* Overlay background */
+.order-detail-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Modal box */
+.order-detail-modal-box {
+  background: #fff;
+  width: 90%;
+  max-width: 700px;
+  border-radius: 8px;
+  padding: 24px 28px;
+  position: relative;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Close button */
+.order-detail-modal-close {
+  position: absolute;
+  top: 12px;
+  right: 16px;
+  font-size: 20px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #888;
+}
+
+.order-detail-modal-close:hover {
+  color: #000;
+}
+
+/* Modal title */
+.order-detail-modal-title {
+  font-size: 22px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  text-align: center;
+  color: #333;
+}
+
+/* Section */
+.order-detail-section {
+  margin-bottom: 24px;
+}
+
+.order-detail-section h4 {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 10px;
+  color: #222;
+}
+
+.order-detail-section ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.order-detail-section li {
+  margin-bottom: 6px;
+  font-size: 14px;
+  color: #444;
+}
+
+/* Cancel button */
+.order-detail-modal-cancel-btn {
+  display: block;
+  margin: 0 auto 0;
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 5px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.order-detail-modal-cancel-btn:hover {
+  background-color: #c82333;
+}
+
+.order-detail-modal-cancel-btn:disabled {
+  background-color: #999;
+  cursor: not-allowed;
+}
+
+/* Product list */
+.order-detail-product-list {
+  padding: 0;
+  list-style: none;
+  margin: 0;
+}
+
+.order-detail-product-item {
+  display: flex;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.order-detail-product-item img {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 6px;
+}
+
+.item-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex: 1;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.review-action {
+  margin-left: auto;
+}
+
+.btn-review {
+  background-color: #3182ce;
+  color: white;
+  padding: 6px 12px;
+  font-size: 14px;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.btn-review:hover {
+  background-color: #2563eb;
+}
+
+.order-title-flex {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.order-title-flex svg {
+  font-size: 18px;
+  vertical-align: middle;
+}

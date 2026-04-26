@@ -1,0 +1,38 @@
+@keyframes moveImage {
+  0% {
+    transform: translateX(-200%) rotateX(30deg);
+  }
+  50% {
+    transform: translateX(0) rotateX(30deg);
+  }
+}
+
+@keyframes title {
+  0% {
+    transform: translateY(-100%) rotateX(30deg);
+  }
+  50% {
+    transform: translateY(0) rotateX(30deg);
+  }
+}
+
+@keyframes slogan {
+  0% {
+    transform: translateY(200%) rotateX(30deg);
+  }
+  50% {
+    transform: translateY(0) rotateX(30deg);
+  }
+}
+
+.moveImage {
+  animation: moveImage 3s ease-in-out;
+}
+
+.titleAnimation {
+  animation: title 3s ease-in-out;
+}
+
+.sloganAnimation {
+  animation: slogan 2s ease-in;
+}

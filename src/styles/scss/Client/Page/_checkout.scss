@@ -1,0 +1,63 @@
+.checkout-page {
+    .container {
+        padding: 50px 200px 50px 140px;
+        display: flex;
+        padding: 2rem;
+        background-color: #fff;
+        .content-left {
+            width: 50%;
+            form {
+                input,
+                textarea {
+                    width: 100%;
+                    padding: 10px;
+                    border-radius: 5px;
+                    border: 1px solid #ccc;
+                }
+                label {
+                    font-size: 20px;
+                    padding: 5px;
+                }
+                img {
+                    width: 100px;
+                }
+            }
+            .zalopay {
+                padding: 10px;
+            }
+        }
+        .content-right {
+            width: 50%;
+            padding: 2rem;
+            /* background-color: #e5fbf1; */
+            background-image: url(../../../../public/image/about/checkout-nen.jpg);
+            background-size: 100%;
+            background-position-y: bottom;
+            margin-left: 2rem;
+            .content1{
+                height: 100%;
+                position: relative;
+                table {
+                    width: 100%;
+                    tr {
+                        border-bottom: 1px solid #dee0df;
+                        th {
+                            padding: 10px;
+                        }
+                    }
+                }
+                button {
+                    margin-top: 20px;
+                    position: absolute;
+                    right: 0px;
+                    width: 150px;
+                    background: linear-gradient(to right, #142b16, #598059);
+                    padding: 10px;
+                    color: white;
+                    border: none;
+                }
+            }
+            
+        }
+    }
+}
